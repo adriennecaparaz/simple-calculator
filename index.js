@@ -38,8 +38,25 @@ const handleInput = function(e) {
     }
 };
 
+const toggleMode = function(e) {
+    const value = e.target.dataset['value'];
+    if (value == 'dark') {
+        e.target.innerHTML = '&#9790;';
+        e.target.dataset['value'] = 'light';
+        toggle.style['justify-content'] = 'flex-end';
+    }
+    else {
+        e.target.innerHTML = '&#9728;';
+        e.target.dataset['value'] = 'dark';
+        toggle.style['justify-content'] = 'flex-start';
+    }
+}
+
+const toggle = document.querySelector('.toggle');
 const equation = document.querySelector('.equation');
-const buttons = document.querySelectorAll('button');
+const buttons = document.querySelectorAll('.calc-btn');
 buttons.forEach(btn => {
     btn.addEventListener('click', handleInput);
 });
+const toggleBtn = document.querySelector('.toggle-btn');
+toggleBtn.addEventListener('click', toggleMode);
