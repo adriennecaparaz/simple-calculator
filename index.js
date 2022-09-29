@@ -43,16 +43,17 @@ const toggleMode = function(e) {
     if (value == 'dark') {
         e.target.innerHTML = '&#9790;';
         e.target.dataset['value'] = 'light';
-        toggle.style['justify-content'] = 'flex-end';
+        e.target.style['translate'] = '100%';
     }
     else {
         e.target.innerHTML = '&#9728;';
         e.target.dataset['value'] = 'dark';
-        toggle.style['justify-content'] = 'flex-start';
+        e.target.style['translate'] = '0';
     }
+    container.classList.toggle('light');
 }
 
-const toggle = document.querySelector('.toggle');
+const container = document.querySelector('.container');
 const equation = document.querySelector('.equation');
 const buttons = document.querySelectorAll('.calc-btn');
 buttons.forEach(btn => {
