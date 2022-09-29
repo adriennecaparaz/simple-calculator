@@ -23,7 +23,7 @@ main {
     justify-content: flex-end;
     background-color: #1c1c1e;
     width: 350px;
-    max-width: 80vw;
+    max-width: 90vw;
     height: 650px;
     border-radius: 15px;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.3);
