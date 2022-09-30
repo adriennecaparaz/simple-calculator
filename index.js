@@ -39,16 +39,17 @@ const handleInput = function(e) {
 };
 
 const toggleMode = function(e) {
-    const value = e.target.dataset['value'];
+    const elem = e.target.classList.contains('toggle-btn') ? e.target : e.target.parentElement;
+    const value = elem.dataset['value'];
     if (value == 'dark') {
-        e.target.innerHTML = '&#9790;';
-        e.target.dataset['value'] = 'light';
-        e.target.style['translate'] = '100%';
+        elem.innerHTML = '<i class="fa-regular fa-moon"></i>';
+        elem.dataset['value'] = 'light';
+        elem.style['translate'] = '100%';
     }
     else {
-        e.target.innerHTML = '&#9728;';
-        e.target.dataset['value'] = 'dark';
-        e.target.style['translate'] = '0';
+        elem.innerHTML = '<i class="fa-regular fa-sun"></i>';
+        elem.dataset['value'] = 'dark';
+        elem.style['translate'] = '0';
     }
     container.classList.toggle('light');
 }
