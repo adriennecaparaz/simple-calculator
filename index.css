@@ -108,9 +108,19 @@ main {
 }
 
 .result {
+    display: flex;
+    flex-direction: row-reverse;
     font-weight: 900;
     font-size: 42px;
     text-align: right;
+    width: 100%;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.result::-webkit-scrollbar {
+    display: none;
 }
 
 .toggle {
@@ -120,6 +130,7 @@ main {
     width: 70px;
     padding: 5px;
     border-radius: 50px;
+    transition: background-color 0.5s, color 0.5s;
 }
 
 .toggle-container button {
