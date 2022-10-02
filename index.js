@@ -1,6 +1,6 @@
-const OPERATORS = ['clr', '%', 'neg', '÷', '+', '-', '*', 'back', '='];
+const OPERATORS = ['clr', '%', 'neg', '÷', '+', '-', 'x', 'back', '='];
 
-let currentResult = 0;
+let currentResult = null;
 let numberBuild = '';
 let a = 0;
 let b = 0;
@@ -28,7 +28,7 @@ const operate = function(operator, a, b) {
             return add(a, b);
         case '-':
             return subtract(a, b);
-        case '*':
+        case 'x':
             return multiply(a, b);
         case '÷':
             return divide(a, b);
@@ -38,22 +38,24 @@ const operate = function(operator, a, b) {
 const handleInput = function(e) {
     const value = e.target.dataset['value'];
     if (!OPERATORS.includes(value)) {
+        if (operator == '' && numberBuild == '') clear();
         if (result.textContent != '0') result.textContent += value;
         else result.textContent = value;
         numberBuild += value;
     }
     else if (value == '=') {
-        shift();
         handleCalculation();
     }
     else if (OPERATORS.slice(3,7).includes(value)) {
-        b = +numberBuild;
-        numberBuild = '';
+        if (currentResult == null) {
+            shift();
+        }
+        else {
+            a = b;
+            b = currentResult;
+        }
         result.textContent += value;
         if (operator != '') {
-            a = b;
-            b = +numberBuild;
-            equation.textContent = result.textContent;
             handleCalculation();
         }
         operator = value;
@@ -64,6 +66,8 @@ const handleInput = function(e) {
     console.log("a = " + a);
     console.log("b = " + b);
     console.log("op = " + operator);
+    console.log("numberBuild = " + numberBuild);
+    console.log(currentResult);
 };
 
 const shift = function() {
@@ -73,7 +77,9 @@ const shift = function() {
 }
 
 const handleCalculation = function() {
+    shift();
     currentResult = operate(operator, a, b);
+    equation.innerHTML += `<br>${a} ${operator} ${b} = ${currentResult}`;
     a = b;
     b = currentResult;
     result.textContent = currentResult;
@@ -81,13 +87,14 @@ const handleCalculation = function() {
 }
 
 const clear = function() {
-    currentResult = 0;
+    currentResult = null;
     a = 0;
     b = 0;
     operator = '';
     numberBuild = '';
 
     result.textContent = '0';
+    equation.innerHTML = '';
 }
 
 const toggleMode = function(e) {
