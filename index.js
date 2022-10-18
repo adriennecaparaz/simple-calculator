@@ -5,7 +5,7 @@ let numberBuild = '';
 let a = 0;
 let b = 0;
 let operator = '';
-let sign = 1;
+let negative = false;
 
 const add = function(a, b) {
     return a + b;
@@ -54,9 +54,8 @@ const handleInput = function(e) {
         handleCalculation();
         document.querySelector('.decimal').disabled = false;
     }
-    else if (value == 'back') {
-        backspace();
-    }
+    else if (value == 'back') backspace();
+    else if (value == 'neg') toggleSign();
     else if (value == '%') {
         shift();
         currentResult = b / 100;
@@ -152,7 +151,17 @@ const clear = function() {
 }
 
 const toggleSign = function() {
-    sign *= -1;
+    negative = !negative;
+    if (numberBuild != '') {
+        if (negative) {
+            numberBuild = '-' + numberBuild;
+            result.textContent = result.textContent.slice(0, result.textContent.length - (numberBuild.length - 1)) + numberBuild;
+        }
+        else {
+            numberBuild = numberBuild.slice(1, numberBuild.length);
+            result.textContent = result.textContent.slice(0, result.textContent.length - (numberBuild.length + 1)) + numberBuild;
+        }
+    }
 }
 
 const toggleMode = function(e) {
