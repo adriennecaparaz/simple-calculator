@@ -46,9 +46,20 @@ const handleInput = function(e) {
         if (result.textContent != '0') result.textContent += value;
         else result.textContent = value;
         numberBuild += value;
+        if (value == '.') {
+            document.querySelector('.decimal').disabled = true;
+        }
     }
     else if (value == '=') {
         handleCalculation();
+        document.querySelector('.decimal').disabled = false;
+    }
+    else if (value == '%') {
+        shift();
+        currentResult = b / 100;
+        equation.innerHTML += `<br>${b}% = ${currentResult}`;
+        result.textContent = currentResult;
+        document.querySelector('.decimal').disabled = false;
     }
     else if (OPERATORS.slice(3,7).includes(value)) {
         if (result.textContent == 'undefined') {
@@ -66,6 +77,7 @@ const handleInput = function(e) {
             handleCalculation();
         }
         operator = value;
+        document.querySelector('.decimal').disabled = false;
     }
     else if (value == 'clr') {
         clear();
@@ -122,6 +134,8 @@ const clear = function() {
 
     result.textContent = '0';
     equation.innerHTML = '';
+
+    document.querySelector('.decimal').disabled = false;
 }
 
 const toggleSign = function() {
