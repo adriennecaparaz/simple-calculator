@@ -1,4 +1,5 @@
-const OPERATORS = ['clr', '%', 'neg', '÷', '+', '-', 'x', 'back', '='];
+const OPERATORS = ['neg', '÷', '+', '-', 'x', '*', '/'];
+const NUMBERS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.'];
 
 let currentResult = null;
 let numberBuild = '';
@@ -33,15 +34,17 @@ const operate = function(operator, a, b) {
         case '-':
             return subtract(a, b);
         case 'x':
+        case '*':
             return multiply(a, b);
+        case '/':
         case '÷':
             return divide(a, b);
     }
 };
 
 const handleInput = function(e) {
-    const value = e.target.dataset['value'];
-    if (!OPERATORS.includes(value)) {
+    const value = e;
+    if (NUMBERS.includes(value)) {
         if (operator == '' && numberBuild == '' || result.textContent == 'undefined') clear();
         if (result.textContent != '0') result.textContent += value;
         else result.textContent = value;
@@ -50,11 +53,11 @@ const handleInput = function(e) {
             document.querySelector('.decimal').disabled = true;
         }
     }
-    else if (value == '=') {
+    else if (value == 'Enter') {
         handleCalculation();
         document.querySelector('.decimal').disabled = false;
     }
-    else if (value == 'back') backspace();
+    else if (value == 'Backspace') backspace();
     else if (value == 'neg') toggleSign();
     else if (value == '%') {
         shift();
@@ -63,7 +66,7 @@ const handleInput = function(e) {
         result.textContent = currentResult;
         document.querySelector('.decimal').disabled = false;
     }
-    else if (OPERATORS.slice(3,7).includes(value)) {
+    else if (OPERATORS.includes(value)) {
         if (result.textContent == 'undefined') {
             clear();
         }
@@ -84,11 +87,6 @@ const handleInput = function(e) {
     else if (value == 'clr') {
         clear();
     }
-    console.log("a = " + a);
-    console.log("b = " + b);
-    console.log("op = " + operator);
-    console.log("numberBuild = " + numberBuild);
-    console.log(currentResult);
 };
 
 const shift = function() {
@@ -185,7 +183,8 @@ const equation = document.querySelector('.equation');
 const result = document.querySelector('.result');
 const buttons = document.querySelectorAll('.calc-btn');
 buttons.forEach(btn => {
-    btn.addEventListener('click', handleInput);
+    btn.addEventListener('click', e => { handleInput(e.target.dataset['value']); });
 });
 const toggleBtn = document.querySelector('.toggle-btn');
 toggleBtn.addEventListener('click', toggleMode);
+document.addEventListener('keydown', e => { handleInput(e.key); });
