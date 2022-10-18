@@ -20,6 +20,9 @@ const multiply = function(a, b) {
 };
 
 const divide = function(a, b) {
+    if (b == 0) {
+        return undefined;
+    }
     return a / b;
 };
 
@@ -39,7 +42,7 @@ const operate = function(operator, a, b) {
 const handleInput = function(e) {
     const value = e.target.dataset['value'];
     if (!OPERATORS.includes(value)) {
-        if (operator == '' && numberBuild == '') clear();
+        if (operator == '' && numberBuild == '' || result.textContent == 'undefined') clear();
         if (result.textContent != '0') result.textContent += value;
         else result.textContent = value;
         numberBuild += value;
@@ -48,6 +51,9 @@ const handleInput = function(e) {
         handleCalculation();
     }
     else if (OPERATORS.slice(3,7).includes(value)) {
+        if (result.textContent == 'undefined') {
+            clear();
+        }
         if (currentResult == null) {
             shift();
         }
@@ -87,13 +93,23 @@ const handleCalculation = function() {
         equation.innerHTML += `<br>${a} ${operator} ${b} = ${currentResult}`;
         a = b;
         b = currentResult;
+        
     }
     else {
         currentResult = b;
         equation.innerHTML += `<br>${b} = ${currentResult}`;
         a, b = currentResult;
     }
-    result.textContent = currentResult;
+    if (currentResult == undefined) {
+        a = 0;
+        b = 0;
+        operator = '';
+        numberBuild = '';
+        result.textContent = 'undefined';
+    }
+    else {
+        result.textContent = currentResult;
+    }
     operator = '';
 }
 
