@@ -54,6 +54,9 @@ const handleInput = function(e) {
         handleCalculation();
         document.querySelector('.decimal').disabled = false;
     }
+    else if (value == 'back') {
+        backspace();
+    }
     else if (value == '%') {
         shift();
         currentResult = b / 100;
@@ -93,6 +96,16 @@ const shift = function() {
     a = b;
     b = +numberBuild;
     numberBuild = '';
+}
+
+const backspace = function() {
+    if (numberBuild != '') {
+        numberBuild = numberBuild.slice(0, numberBuild.length - 1);
+    }
+    else {
+        operator = '';
+    }
+    result.textContent = result.textContent.slice(0, result.textContent.length - 1);
 }
 
 const handleCalculation = function() {
