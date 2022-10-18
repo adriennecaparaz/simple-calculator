@@ -5,6 +5,7 @@ let numberBuild = '';
 let a = 0;
 let b = 0;
 let operator = '';
+let sign = 1;
 
 const add = function(a, b) {
     return a + b;
@@ -77,11 +78,21 @@ const shift = function() {
 }
 
 const handleCalculation = function() {
-    shift();
-    currentResult = operate(operator, a, b);
-    equation.innerHTML += `<br>${a} ${operator} ${b} = ${currentResult}`;
-    a = b;
-    b = currentResult;
+    if (numberBuild != '') {
+        shift();
+    }
+
+    if (operator != '') {
+        currentResult = operate(operator, a, b);
+        equation.innerHTML += `<br>${a} ${operator} ${b} = ${currentResult}`;
+        a = b;
+        b = currentResult;
+    }
+    else {
+        currentResult = b;
+        equation.innerHTML += `<br>${b} = ${currentResult}`;
+        a, b = currentResult;
+    }
     result.textContent = currentResult;
     operator = '';
 }
@@ -95,6 +106,10 @@ const clear = function() {
 
     result.textContent = '0';
     equation.innerHTML = '';
+}
+
+const toggleSign = function() {
+    sign *= -1;
 }
 
 const toggleMode = function(e) {
